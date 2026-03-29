@@ -8,8 +8,8 @@
                     <!-- Header -->
                     <div class="card-header text-center text-white rounded-top-4"
                         style="background: linear-gradient(135deg, #0d6efd, #0dcaf0);">
-                        <h4 class="mb-1 fw-bold">📋 ลงทะเบียน</h4>
-                        <small>กรอกข้อมูลเพื่อส่งเข้า n8n Webhook</small>
+                        <h4 class="mb-1 fw-bold">📋 กรอกข้อมูลสินค้า</h4>
+                        <small>กรอกข้อมูลสินค้าเพื่อส่งเข้า n8n Webhook</small>
                     </div>
 
                     <!-- Body -->
@@ -26,23 +26,24 @@
 
 
                             <div class=" mb-3">
-                                <label class="form-label">รหัสนักศึกษา *</label>
+                                <label class="form-label">รหัสสินค้า *</label>
                                 <input type="text" class="form-control" v-model="data.id" required>
                             </div>
 
                             <div class=" mb-3">
-                                <label class="form-label">ชื่อ-นามสกุล *</label>
-                                <input type="text" class="form-control" v-model="data.fullname" required>
+                                <label class="form-label">ชื่อสินค้า *</label>
+                                <input type="text" class="form-control" v-model="data.title" required>
                             </div>
 
 
                             <div class="mb-3">   
-                                <select class="form-select text-center" v-model="data.department" required>
-                                    <option value="" disabled>-- เลือกคณะ --</option>
-                                    <option value="บริหารธุรกิจ">บริหารธุรกิจ</option>
-                                    <option value="บัญชี">บัญชี</option>
-                                    <option value="เทคโนโลยีสารสนเทศ">เทคโนโลยีสารสนเทศ</option>
-                                </select>
+                                <label class="form-label">จำนวน *</label>
+                                <input type="text" class="form-control" v-model="data.amount" required>
+                            </div>
+
+                            <div class="mb-3">   
+                                <label class="form-label">ราคา *</label>
+                                <input type="text" class="form-control" v-model="data.price" required>
                             </div>
 
 
@@ -69,8 +70,9 @@ import { reactive, ref } from "vue";
 
 const data = reactive({
     id: "",
-    fullname: "",
-    department: ""
+    title: "",
+    amount: "",
+    price: ""
 });
 
 const loading = ref(false);
@@ -85,7 +87,7 @@ const submitForm = async () => {
     status.message = "";
 
     try {
-        const response = await fetch("http://localhost:5678/webhook/regis", {
+        const response = await fetch("http://localhost:5678/webhook/product", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -108,8 +110,9 @@ const submitForm = async () => {
 
         // reset form
         data.id = "";
-        data.fullname = "";
-        data.department = "";
+        data.title = "";
+        data.amount = "";
+        data.price = "";
 
     } catch (error) {
         console.error(error);
