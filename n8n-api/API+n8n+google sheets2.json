@@ -1,0 +1,543 @@
+{
+  "name": "API+n8n+google sheets",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "show",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        624,
+        -240
+      ],
+      "id": "3196fe9a-567a-4825-94bd-0764783f3220",
+      "name": "Webhook",
+      "webhookId": "a5ec5cee-8b6b-4813-a92f-25d31d9b107e"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1_pXNwKlLXJAUntCf6jQIUYTPE-hM-mYZMN-0qqM32r4",
+          "mode": "list",
+          "cachedResultName": "Products",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_pXNwKlLXJAUntCf6jQIUYTPE-hM-mYZMN-0qqM32r4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "products_67703223",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_pXNwKlLXJAUntCf6jQIUYTPE-hM-mYZMN-0qqM32r4/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        832,
+        -240
+      ],
+      "id": "b6c9dc2f-8fa5-4456-8787-293bb33b81e6",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "w17P9ewjbTRiPuBL",
+          "name": "Google Sheets account 7"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "508f3910-9b34-42c4-90ac-c421a44fbd1e",
+              "name": "id",
+              "value": "={{ $json[\"รหัสสินค้า\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "9bcf2938-c113-4d1e-b20e-8b042d1665ce",
+              "name": "title",
+              "value": "={{ $json[\"ชื่อสินค้า\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "134ecf84-faf5-4944-9538-dc70ebd7b7ff",
+              "name": "amount",
+              "value": "={{ $json[\"จำนวน\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "cb3b04fb-ee2f-4894-919f-3632c86ba5a4",
+              "name": "price",
+              "value": "={{ $json[\"ราคา\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1040,
+        -240
+      ],
+      "id": "f1581d87-f248-4897-bada-ec38e0aaba12",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1248,
+        -240
+      ],
+      "id": "6d10f4a0-8120-4fa0-ba28-3069e22bf6da",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "08327dc5-dd6a-471a-bed8-b3daa55176e0",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "702e4d23-e4af-4fd5-a479-75a55361c169",
+              "leftValue": "={{ $json.title }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "ca246d60-367e-4c40-80b9-19e3a32f6f08",
+              "leftValue": "={{ $json.amount }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "9d9420eb-35c2-4723-944f-2f7c52437b6d",
+              "leftValue": "={{ $json.price }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        800,
+        224
+      ],
+      "id": "034d992b-03bc-4f47-963f-94b1889af8de",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1_pXNwKlLXJAUntCf6jQIUYTPE-hM-mYZMN-0qqM32r4",
+          "mode": "list",
+          "cachedResultName": "Products",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_pXNwKlLXJAUntCf6jQIUYTPE-hM-mYZMN-0qqM32r4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "products_67703223",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_pXNwKlLXJAUntCf6jQIUYTPE-hM-mYZMN-0qqM32r4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "รหัสสินค้า": "={{ $json.id }}",
+            "ราคา": "={{ $json.price }}",
+            "จำนวน": "={{ $json.amount }}",
+            "ชื่อสินค้า": "={{ $json.title }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "รหัสสินค้า",
+              "displayName": "รหัสสินค้า",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ชื่อสินค้า",
+              "displayName": "ชื่อสินค้า",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "จำนวน",
+              "displayName": "จำนวน",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ราคา",
+              "displayName": "ราคา",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "params",
+              "displayName": "params",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "webhookUrl",
+              "displayName": "webhookUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "executionMode",
+              "displayName": "executionMode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1008,
+        128
+      ],
+      "id": "e764b6ab-7855-4504-9530-7584787cee1e",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1b5b6XPrUUd5mivf",
+          "name": "Google Sheets account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "binnieastro6@gmail.com",
+        "subject": "ข้อมูลสินค้า",
+        "emailType": "text",
+        "message": "=รหัสสินค้า: {{ $json[\"รหัสสินค้า\"] }}\nชื่อสินค้า: {{ $json[\"ชื่อสินค้า\"] }} \nจำนวน: {{ $json[\"จำนวน\"] }} \nราคา: {{ $json[\"ราคา\"] }} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1216,
+        128
+      ],
+      "id": "5cde8399-bf38-4249-88e1-e8354f5f6769",
+      "name": "Send a message",
+      "webhookId": "9c0f2379-ce93-4271-849f-c9e061308a1a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "F5mfUICzWg0SPpT8",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"msg\": \"กรุณากรอกข้อมูลให้ครบถ้วน\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1008,
+        368
+      ],
+      "id": "f7b86f49-58b0-4beb-8aa8-5ef56bf007bb",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "product",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        384,
+        224
+      ],
+      "id": "d1f1a3ed-2c9c-4002-becd-c877e9040719",
+      "name": "Webhook1",
+      "webhookId": "35eaa1a0-f93c-4969-b12b-81f8b771ab52"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "98362c56-d076-4a94-81c5-fa0bbfb973c3",
+              "name": "id",
+              "value": "={{ $json.body.id }}",
+              "type": "string"
+            },
+            {
+              "id": "efd89c64-cd9b-4bb3-9efd-7ed0b1f8db36",
+              "name": "title",
+              "value": "={{ $json.body.title }}",
+              "type": "string"
+            },
+            {
+              "id": "89fab2f0-e675-486a-a397-dc32e81cd278",
+              "name": "amount",
+              "value": "={{ $json.body.amount }}",
+              "type": "string"
+            },
+            {
+              "id": "4ef69f80-1717-4dac-9290-3ffd63f857c7",
+              "name": "price",
+              "value": "={{ $json.body.price }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        592,
+        224
+      ],
+      "id": "a3414607-8c08-40b8-8d9f-4236ed5da6ce",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"msg\": \"ข้อมูลถูกบันทึกแล้ว\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1424,
+        128
+      ],
+      "id": "c62c0133-7f6c-4693-8e19-633ace3ebed5",
+      "name": "Respond to Webhook2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "60276077-5edc-403f-89b8-33deecc05e51",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "78b834746b51d76311fb9597f2343bd8600d7ee5866d3244231b9352526d7b61"
+  },
+  "id": "VFgPf5cnRZmBResG",
+  "tags": []
+}
